@@ -1,0 +1,7 @@
+UnlitGeneric
+{
+	$basetexture is_simply_spyskate/strips
+	$translucent 1
+	$surfaceprop Glass
+	$selfillum 1
+}

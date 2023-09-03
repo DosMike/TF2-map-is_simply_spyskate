@@ -1,0 +1,6 @@
+UnlitGeneric
+{
+	$basetexture is_simply_spyskate/light
+	$surfaceprop Concrete
+	$selfillum 1
+}

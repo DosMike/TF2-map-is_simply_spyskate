@@ -1,0 +1,13 @@
+LightmappedGeneric
+{
+	$basetexture is_simply_spyskate/is_simply_spyskate_tut
+	$surfaceprop Concrete
+	
+	Proxies {
+		AnimatedTexture {
+			animatedtexturevar $basetexture
+			animatedtextureframenumvar $frame
+			animatedtextureframerate 0.5
+		}
+	}
+}
