@@ -1,6 +1,6 @@
 // MIT - DosMike (aka reBane)
 // IceSkate TF2 gamemode VScript
-// Version 2023-09-03.03
+// Version 2023-09-04.01
 // This script only implements the basics of the game mode: Movement
 // It is recommended to make usage of powerups
 // Class and weapons limits are up to the mapper
@@ -54,7 +54,7 @@ function SkateUpdatePlayer() {
 		local origin = client.GetOrigin();
 		local scan = {
 			start = origin
-			end = Vector(origin.x, origin.y, origin.z - 48.0)
+			end = Vector(origin.x, origin.y, origin.z - 64.0)
 			hullmin = client.GetPlayerMins()
 			hullmax = client.GetPlayerMaxs()
 			//MASK_PLAYERSOLID			(CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_PLAYERCLIP|CONTENTS_WINDOW|CONTENTS_MONSTER|CONTENTS_GRATE)
@@ -64,7 +64,7 @@ function SkateUpdatePlayer() {
 		// pos, fraction, hit, enthit, allsolid, startpos, endpos, startsolid, plane_normal, plane_dist, surface_name, surface_flags, surface_props 
 		if (!TraceHull(scan) || !("enthit" in scan)) continue;
 		// new location
-		local position = Vector(scan.pos.x, scan.pos.y, scan.pos.z + 10.0);
+		local position = Vector(scan.pos.x, scan.pos.y, scan.pos.z + 22.0); // a bit over step-height seems good for servers with actual latency, on a local game, 10 is fine
 		// new velocity, based on surface normal as up, right as right, forward should be the cross
 		local absVelocity = client.GetAbsVelocity();
 		local up = Vector(0.0, 0.0, 1.0);
@@ -180,6 +180,12 @@ function OnScriptHook_OnTakeDamage(params) {
 	if(params.const_entity.IsPlayer() && IsSkating(params.const_entity) && params.inflictor && params.inflictor.GetEntityIndex() == 0) {
 		params.damage = 0;
 	}
+}
+
+function OnGameEvent_player_disconnect(params) {
+	local uid = params.userid;
+	if (uid in skaters) delete skaters[uid];
+	if (uid in boosted) delete boosted[uid];
 }
 
 // ----- register events -----
